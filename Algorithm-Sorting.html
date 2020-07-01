@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-center-radar.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="Sorting Algorithm Overview This chapter introduces commonly used sorting algorithm (Covered all sorting algorithm in COMP90038 course). Covered: Selection Sort Insertion Sort Shell Sort Quick Sort Mer">
+<meta name="keywords" content="algorithm,University of Melbourne,Master of Information Technology,COMP90038,Sorting Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Algorithm - Sorting Algorithm">
+<meta property="og:url" content="http:&#x2F;&#x2F;mrryan.cn&#x2F;Algorithm-Sorting.html">
+<meta property="og:site_name" content="Chongzheng&#39;s Blog">
+<meta property="og:description" content="Sorting Algorithm Overview This chapter introduces commonly used sorting algorithm (Covered all sorting algorithm in COMP90038 course). Covered: Selection Sort Insertion Sort Shell Sort Quick Sort Mer">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-15T12:33:57.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://mrryan.cn/Algorithm-Sorting.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Algorithm - Sorting Algorithm | Chongzheng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+      <a href="https://www.github.com/ChongzhengZhao" target="_blank" rel="noopener" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chongzheng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Postgraudate Student @ MelbourneUni</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-progress">
+
+    <a href="/progress/" rel="section"><i class="fa fa-fw fa-archive"></i>progress</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://mrryan.cn/Algorithm-Sorting.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="Chongzheng">
+      <meta itemprop="description" content="Chongzheng is currently a postgraduate student at the university of melbourne. This blog is aimed to share technical materials and expeiment articles.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chongzheng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Algorithm - Sorting Algorithm
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-02 02:33:57" itemprop="dateCreated datePublished" datetime="2019-11-02T02:33:57+11:00">2019-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-15 23:33:57" itemprop="dateModified" datetime="2019-11-15T23:33:57+11:00">2019-11-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/Unimelb-COMP90038/" itemprop="url" rel="index">
+                    <span itemprop="name">Unimelb-COMP90038</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>5.8k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>5 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Sorting-Algorithm-Overview"><a href="#Sorting-Algorithm-Overview" class="headerlink" title="Sorting Algorithm Overview"></a>Sorting Algorithm Overview</h2><ul>
+<li>This chapter introduces commonly used sorting algorithm (Covered all sorting algorithm in COMP90038 course).</li>
+<li>Covered:<ul>
+<li>Selection Sort</li>
+<li>Insertion Sort</li>
+<li>Shell Sort</li>
+<li>Quick Sort</li>
+<li>Merge Sort</li>
+<li>Heap Sort</li>
+<li>Sort by Counting</li>
+<li>Analysis and Comparison between these algorithms(Time-Complexity, Stable, In-place, Input-insensitive)</li>
+<li><strong>Sample Question In Real Examination</strong><a id="more"></a>
+
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="SelectSort-Brute-Force"><a href="#SelectSort-Brute-Force" class="headerlink" title="SelectSort (Brute Force)"></a>SelectSort (Brute Force)</h2><ul>
+<li>[ABS] Swap the index one and the Selected the smallest one</li>
+<li>[Pseudocode]<br>  function SelectSort(A[~],n) n&lt;-length<pre><code>for i &lt;- 0 to n-2 do
+    min &lt;- i
+    for j &lt;- i+1 to n-1 do
+        if A[j] &lt; A[min] then    //Find the smallest one!
+            min &lt;- j
+    t &lt;- A[i]     //Swap A[i] and A[min]
+    A[i] &lt;- A[min]
+    A[min] &lt;- t</code></pre></li>
+<li>[Time Complexity]<br>  Basic Operation(A[j] &lt; A[min]), its efforts(1)<br>  Worst recursive times(n^2)<br>  So worst TC belongs to O(n^2)</li>
+<li>[Property]<br>  In-Place? Y<br>  Stable? N<br>  Input-insensitive? Y(No sensitive)</li>
+</ul>
+<h2 id="InsertionSort-Decrease-and-Concur"><a href="#InsertionSort-Decrease-and-Concur" class="headerlink" title="InsertionSort (Decrease and Concur)"></a>InsertionSort (Decrease and Concur)</h2><ul>
+<li>[ABS] Take the index one, and downward to left to find a place to insert.(swap the elements inside the scope if they are not the target to be inserted in)</li>
+<li>[Pseudocode]<br>  function insertionsort(A[~],n)<pre><code>for i &lt;- 1 to n-1 do
+    v &lt;- A[i]   //take the index one
+    j &lt;- i - 1  //make a index of comparison target
+    while j &gt;= 0 and v &lt; A[j] do // skip those non-target
+        A[j+1] &lt;- A[j]    //swap the non-target to right to make a place
+        j &lt;- j-1 //downward then
+    A[j+1] &lt;- v //insert the target to the place(already empty)</code></pre></li>
+<li>[Improvement]<br>  when the minimum element is known, we can put it in the first element, so the j &gt;= 0 statement can be thowrn, just keep v &lt; A[j] is enough.</li>
+<li>[Time Complexity]<br>  Basic Operation(v &lt; A[j]), its efforts(2)<br>  Worst(Reverse order) recursive times(n)<br>  So worst TC belongs to O(2n * n) -&gt;&gt; O(n^2)<br>  Best recursive times(0)<br>  So best TC belongs to O(n)</li>
+<li>[Property]<br>  In-Place? Y<br>  Stable? Y<br>  Input-insensitive? N(sensitive)</li>
+</ul>
+<h2 id="ShellSort-Based-on-InsertionSort-Decrease-and-Concur"><a href="#ShellSort-Based-on-InsertionSort-Decrease-and-Concur" class="headerlink" title="ShellSort (Based on InsertionSort)(Decrease and Concur)"></a>ShellSort (Based on InsertionSort)(Decrease and Concur)</h2><ul>
+<li>[ABS]Based on InsertionSort, it first evenly grouped the elements into K sub-group, and in each group execute the insertionsort, and finally use the insertionsort to finalise the overall result. ##Left element has priority!See code!</li>
+<li>[Pseudocode] NOT EXAMINABLE</li>
+<li>[Time Complexity]<br>  Worst case TC belongs to O(nSQRT(n))</li>
+<li>[Property]<br>  In-Place? Y<br>  Stable? N<br>  Input-insensitive? N(sensitive)</li>
+</ul>
+<h2 id="MergeSort-Divide-and-concur-inluding-divide-and-combine"><a href="#MergeSort-Divide-and-concur-inluding-divide-and-combine" class="headerlink" title="MergeSort (Divide and concur) - inluding divide and combine"></a>MergeSort (Divide and concur) - inluding divide and combine</h2><ul>
+<li>[ABS]First divide into piece of size 1, and then do the merge function(Visually, it is from the left most two pair(initial size is 1) and sorting). </li>
+<li>[Pseudocode] - Divide<br>  function mergesort(A[.],n)<pre><code>if n &gt; 1 then        //State the stopping condition
+    for i &lt;- 0 to BOTTOM(n/2 -1) do     // Divide the left part to B
+        B[i] &lt;- A[i]
+    for i &lt;- 0 to UPPER(n/2 - 1) do     // Divide the right part to C
+        C[i] &lt;- A[BOTTOM(n/2) + i]
+    mergesort(B[.],BOTTOM(n/2))
+    mergesort(C[.],UPPER(n/2))
+    merge(B[.],BOTTOM(n/2),C[.],UPPER(n/2),A[.])    //Combine</code></pre></li>
+<li>[Pseudocode] - Combine<br>  function merge(B[.],p,C[.],q,A[.])<pre><code>i &lt;- 0, j &lt;- 0, k &lt;- 0        //init three indexes
+while i &lt; p and j &lt; q do     //avoid out of bounds
+//copy the minimal element to A
+//see &lt;= , so left element has priority to copy to A when B&amp;C same
+    if B[i] &lt;= C[j]        
+        A[k] &lt;- B[i]
+        i &lt;- i + 1
+    else
+        A[k] &lt;- C[j]
+        j &lt;- j + 1
+    k &lt;- k + 1
+if i = p then
+    copy C[j]...C[q-1] to A[k]...A[p+q-1]
+else
+    copy B[i]...B[p-1] to A[k]...A[p+q-1]</code></pre></li>
+<li>[Time Complexity]<br>  Divide costs logn, Merge costs n<br>  Total TC belongs to Theta(nlogn)</li>
+<li>[Property]<br>  In-Place? N<br>  Stable? Y (because left element always has priority)<br>  Input-insensitive? Y(insensitive)</li>
+</ul>
+<h2 id="QuickSort-Divide-and-concur-inluding-divide-and-combine-most-efficient-one"><a href="#QuickSort-Divide-and-concur-inluding-divide-and-combine-most-efficient-one" class="headerlink" title="QuickSort (Divide and concur) - inluding divide and combine - most efficient one"></a>QuickSort (Divide and concur) - inluding divide and combine - most efficient one</h2><ul>
+<li>[Pseudocode] - Main<br>  function quicksort(A[.],lo,hi)<pre><code>if lo &lt; hi then
+    s &lt;- partition(A,lo,hi)  // Remember to assigned the return to s
+    quicksort(A,lo,s-1)
+    quicksort(A,s+1,hi)  // Remember it is s+1</code></pre></li>
+<li>[Pseudocode] - Partition<br>  function partition(A[.],lo,hi)<pre><code>p &lt;- A[lo]
+i &lt;- lo
+j &lt;- hi
+repeat
+    while i &lt; hi and A[i] &lt;= p do i &lt;- i + 1
+    while j &gt;= lo and A[j] &gt; p do j &lt;- j - 1
+    swap(A[i],A[j])
+until i &gt;= j
+swap(A[i],A[j])    // undo last swap
+swap(A[lo],A[j])     // bring pivot to j position
+return j</code></pre></li>
+<li>[Improvement 1]<br>When analysing quicksort in the lecture, we noticed that an already sorted array is a worst-case input. Is that still true if we use median-of three pivot selection?<br>Answer: This is no longer a worst case; in fact it becomes a best case! In this case the median-of-three is in fact the array’s median. Hence each of the two recursive calls will be given an array of length at most n/2, where n is the length of the whole array. And the arrays passed to the recursive calls are again already-sorted, so the phenomenon is invariant throughout the calls.</li>
+<li>[Improvement 2]<blockquote>
+<blockquote>
+<p>Slides&lt;&lt;P62</p>
+</blockquote>
+</blockquote>
+</li>
+<li>[Time Complexity]<br>  Worst Case O(n^2)<br>  Best Case O(nlogn)</li>
+<li>[Property]<br>  In-Place? Y<br>  Stable? N<br>  Input-insensitive? N(sensitive)</li>
+</ul>
+<h2 id="HeapSort-Transform-and-Concur"><a href="#HeapSort-Transform-and-Concur" class="headerlink" title="HeapSort (Transform and Concur)"></a>HeapSort (Transform and Concur)</h2><ul>
+<li>[ABS] Heapsort = 构建最大堆 + 删除最高优先级元素</li>
+<li>[Time Complexity]<br>  Insert elements to a heap costs logn + Make it Heighest Heap cost n + deltete the highest priority element cost logn<br>  TC OVERALL O(nlogn)</li>
+<li>[Step]<br>  1.插入后的最大堆平衡 ：右 -&gt; 左 -&gt; 右（最下面的孩子-&gt;父母（若有变）-&gt;孩子重新回去验证）<br>  2.删除最高优先级元素：第一个元素放在最末尾，然后按照插入的步骤重新平衡验证（次最大的接着放在倒数第二个，以此类推）</li>
+<li>[Property]<br>  In-Place? Y<br>  Stable? N<br>  Input-insensitive? Y(insensitive)</li>
+</ul>
+<h2 id="Sort-by-Couting-Use-Space-to-Reduce-Time"><a href="#Sort-by-Couting-Use-Space-to-Reduce-Time" class="headerlink" title="Sort by Couting (Use Space to Reduce Time)"></a>Sort by Couting (Use Space to Reduce Time)</h2><ul>
+<li>[Must Sutisfy] the length N &gt;&gt; number scope! It is not efficient to use when k &gt; nlogn!</li>
+<li>[Time Complexity and steps]<br>  OVERALL COMPLEXITY IS O(n+k) -&gt;&gt; O(n)<ul>
+<li>construct a array B(length k+1), initial all value to 0.[cost O(k+1)]</li>
+<li>from left to right to traverse, and count each element appear times to record in B.[cost O(n)]</li>
+<li>In B, accumulation from left to right.[cost O(k)]</li>
+<li>Construct a array C(length n), left its defalt. [cost O(1)]</li>
+<li>Regard the value of B as index in C, add the value to C.[cost O(n)]</li>
+<li>Overall, cost O(2k+2n+2) -&gt;&gt; O(n+k) -&gt;&gt; O(n) [Linear Complexity]</li>
+</ul>
+</li>
+</ul>
+<h2 id="Comparison-of-Sorting-algorithms"><a href="#Comparison-of-Sorting-algorithms" class="headerlink" title="Comparison of Sorting algorithms"></a>Comparison of Sorting algorithms</h2><ul>
+<li>Comparison<pre><code>In-Place? | Stable? | Input-Insensitive? | Time Complexity</code></pre>BF    SelectSort  |        Y      |       N    |           Y             |     O(n^2)<br>DeC    InsertiSort |        Y      |       Y!   |         N!         |Be-O(n) Wor-O(n^2)<br>DeC    ShellSort    |        Y     |    N    |         N!         |Wor-O(nSQRT(n))<br>DiC    mergesort   |         N     |    Y    |         Y          |       O(nlogn)<br>DiC    quicksort   |        Y     |       N    |          N          |Be-O(nlogn)Wor-O(n^2)<br>TrC    HeapSort    |         Y      |    N    |         Y             |       O(nlogn)</li>
+</ul>
+<h2 id="2017-Sample"><a href="#2017-Sample" class="headerlink" title="2017 Sample"></a>2017 Sample</h2><ul>
+<li>Stable means the order of input elements is unchanged except where change is required to satisfy the requirements. A stable sort applied to a sequence of equal elements will not change their order.</li>
+</ul>
+<h2 id="2017-Sample-1"><a href="#2017-Sample-1" class="headerlink" title="2017 Sample"></a>2017 Sample</h2><ul>
+<li>In-place means that the input and output occupy the same memory storage space. There is no copying of input to output, and the input ceases to exist unless you have made a backup copy. This is a property that often requires an imperative language to express, because pure functional languages do no have a notion of storage space or overwriting data.</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Chongzheng
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="/http:/mrryan.cn/Algorithm-Sorting.html" title="Algorithm - Sorting Algorithm">http://mrryan.cn/Algorithm-Sorting.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/null" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+              <a href="/tags/University-of-Melbourne/" rel="tag"># University of Melbourne</a>
+              <a href="/tags/Master-of-Information-Technology/" rel="tag"># Master of Information Technology</a>
+              <a href="/tags/COMP90038/" rel="tag"># COMP90038</a>
+              <a href="/tags/Sorting-Algorithm/" rel="tag"># Sorting Algorithm</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/Algorithm-Time-Complexity.html" rel="prev" title="Algorithm Analysis - Time Complexity">
+      <i class="fa fa-chevron-left"></i> Algorithm Analysis - Time Complexity
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Sorting-Algorithm-Overview"><span class="nav-number">1.</span> <span class="nav-text">Sorting Algorithm Overview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SelectSort-Brute-Force"><span class="nav-number">2.</span> <span class="nav-text">SelectSort (Brute Force)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InsertionSort-Decrease-and-Concur"><span class="nav-number">3.</span> <span class="nav-text">InsertionSort (Decrease and Concur)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ShellSort-Based-on-InsertionSort-Decrease-and-Concur"><span class="nav-number">4.</span> <span class="nav-text">ShellSort (Based on InsertionSort)(Decrease and Concur)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MergeSort-Divide-and-concur-inluding-divide-and-combine"><span class="nav-number">5.</span> <span class="nav-text">MergeSort (Divide and concur) - inluding divide and combine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#QuickSort-Divide-and-concur-inluding-divide-and-combine-most-efficient-one"><span class="nav-number">6.</span> <span class="nav-text">QuickSort (Divide and concur) - inluding divide and combine - most efficient one</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HeapSort-Transform-and-Concur"><span class="nav-number">7.</span> <span class="nav-text">HeapSort (Transform and Concur)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sort-by-Couting-Use-Space-to-Reduce-Time"><span class="nav-number">8.</span> <span class="nav-text">Sort by Couting (Use Space to Reduce Time)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Comparison-of-Sorting-algorithms"><span class="nav-number">9.</span> <span class="nav-text">Comparison of Sorting algorithms</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-Sample"><span class="nav-number">10.</span> <span class="nav-text">2017 Sample</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-Sample-1"><span class="nav-number">11.</span> <span class="nav-text">2017 Sample</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chongzheng"
+      src="/images/header.jpg">
+  <p class="site-author-name" itemprop="name">Chongzheng</p>
+  <div class="site-description" itemprop="description">Chongzheng is currently a postgraduate student at the university of melbourne. This blog is aimed to share technical materials and expeiment articles.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ChongzhengZhao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ChongzhengZhao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chongzhengzhao@gmail.com" title="E-Mail → mailto:chongzhengzhao@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/chongzhengzhao" title="Linked-in → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;chongzhengzhao" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Linked-in</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/null" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chongzheng</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">16k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">15 mins.</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id: 22071,
+      el: 'wpac-rating',
+      color: 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

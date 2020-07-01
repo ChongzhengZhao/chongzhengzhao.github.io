@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-center-radar.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+  <meta name="description" content="New York City Taxi Fare Prediction - TOP 2% TEAM! Author: Chongzheng Zhao Kaggle Competition - New York City Taxi Fare Prediction FINAL BEAT 1454 TEAMS! We team NYCTAXI located at 30 out of 1484 teams">
+<meta name="keywords" content="Kaggle,Competition">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to Achieve Top 2% in Kaggle Competition? Teach you step by step through New York City Taxi Fare Prediction">
+<meta property="og:url" content="http:&#x2F;&#x2F;mrryan.cn&#x2F;New-York-City-Taxi-Fare-Prediction.html">
+<meta property="og:site_name" content="Chongzheng&#39;s Blog">
+<meta property="og:description" content="New York City Taxi Fare Prediction - TOP 2% TEAM! Author: Chongzheng Zhao Kaggle Competition - New York City Taxi Fare Prediction FINAL BEAT 1454 TEAMS! We team NYCTAXI located at 30 out of 1484 teams">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-21T13:00:01.000Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://mrryan.cn/New-York-City-Taxi-Fare-Prediction.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>How to Achieve Top 2% in Kaggle Competition? Teach you step by step through New York City Taxi Fare Prediction | Chongzheng's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+      <a href="https://www.github.com/ChongzhengZhao" target="_blank" rel="noopener" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chongzheng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Postgraudate Student @ MelbourneUni</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-progress">
+
+    <a href="/progress/" rel="section"><i class="fa fa-fw fa-archive"></i>progress</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://mrryan.cn/New-York-City-Taxi-Fare-Prediction.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="Chongzheng">
+      <meta itemprop="description" content="Chongzheng is currently a postgraduate student at the university of melbourne. This blog is aimed to share technical materials and expeiment articles.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chongzheng's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          How to Achieve Top 2% in Kaggle Competition? Teach you step by step through New York City Taxi Fare Prediction
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-11-30 00:49:13" itemprop="dateCreated datePublished" datetime="2018-11-30T00:49:13+11:00">2018-11-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-22 00:00:01" itemprop="dateModified" datetime="2019-11-22T00:00:01+11:00">2019-11-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Competition/" itemprop="url" rel="index">
+                    <span itemprop="name">Competition</span>
+                  </a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Competition/Kaggle/" itemprop="url" rel="index">
+                    <span itemprop="name">Kaggle</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>2.9k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>3 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="New-York-City-Taxi-Fare-Prediction-TOP-2-TEAM"><a href="#New-York-City-Taxi-Fare-Prediction-TOP-2-TEAM" class="headerlink" title="New York City Taxi Fare Prediction - TOP 2% TEAM!"></a>New York City Taxi Fare Prediction - TOP 2% TEAM!</h1><ul>
+<li><strong>Author: Chongzheng Zhao</strong></li>
+<li><strong>Kaggle Competition - New York City Taxi Fare Prediction</strong></li>
+<li><strong>FINAL BEAT 1454 TEAMS!</strong></li>
+<li><strong>We team NYCTAXI located at 30 out of 1484 teams, Top 2%!</strong></li>
+<li><strong>Final Score 2.86770</strong></li>
+<li><strong>Competition Official Website: <a href="https://www.kaggle.com/c/new-york-city-taxi-fare-prediction" target="_blank" rel="noopener">https://www.kaggle.com/c/new-york-city-taxi-fare-prediction</a></strong></li>
+<li><strong>To see the leaderboard(competition result): <a href="https://www.kaggle.com/c/new-york-city-taxi-fare-prediction/leaderboard" target="_blank" rel="noopener">https://www.kaggle.com/c/new-york-city-taxi-fare-prediction/leaderboard</a></strong></li>
+<li><strong>Welcome to my Github Profile: <a href="https://github.com/ChongzhengZhao/" target="_blank" rel="noopener">https://github.com/ChongzhengZhao/</a></strong></li>
+<li><strong>Welcome to my Kaggle Profile: <a href="https://www.kaggle.com/chongzhengzhao" target="_blank" rel="noopener">https://www.kaggle.com/chongzhengzhao</a></strong></li>
+<li><strong>Welcome to my Linkedin Profile: <a href="https://www.linkedin.com/in/chongzhengzhao/" target="_blank" rel="noopener">https://www.linkedin.com/in/chongzhengzhao/</a></strong></li>
+</ul>
+<a id="more"></a> 
+
+<h1 id="项目概要"><a href="#项目概要" class="headerlink" title="项目概要"></a>项目概要</h1><ul>
+<li>按照项目步骤，拿到Raw Data后，按照顺序进行data预处理、feature engineering（特征工程）、做model（模型）、ensemble and stacking。</li>
+</ul>
+<h1 id="Data简介"><a href="#Data简介" class="headerlink" title="Data简介"></a>Data简介</h1><ol>
+<li>New York City Taxi Fare Prediction项目的数据集将近有55million rows，这在kaggle比赛中算比较大的数据集了，这种数据集需要在性能较高电脑中才能处理效率高，并且数据大带来的model调参也比较困难</li>
+<li>DATA KEY， FEATURES ADN TARGET<br>key -  <pre><code>Unique string identifying each row in both the training and test sets. Comprised of pickup_datetime plus a unique integer, but this doesn&apos;t matter, it should just be used as a unique ID field. Required in your submission CSV. Not necessarily needed in the training set, but could be useful to simulate a &apos;submission file&apos; while doing cross-validation within the training set.</code></pre>Features - <pre><code>pickup_datetime - timestamp value indicating when the taxi ride started.
+pickup_longitude - float for longitude coordinate of where the taxi ride started.
+pickup_latitude - float for latitude coordinate of where the taxi ride started.
+dropoff_longitude - float for longitude coordinate of where the taxi ride ended.
+dropoff_latitude - float for latitude coordinate of where the taxi ride ended.
+passenger_count - integer indicating the number of passengers in the taxi ride.</code></pre>Target - <pre><code>fare_amount - float dollar amount of the cost of the taxi ride. This value is only in the training set; this is what you are predicting in the test set and it is required in your submission CSV.</code></pre></li>
+</ol>
+<h1 id="Data预处理"><a href="#Data预处理" class="headerlink" title="Data预处理"></a>Data预处理</h1><ol>
+<li>data中有很多data outlier无效数据，要drop掉那些数据，使得model进行训练的时候使用正确数据进行，得到的model更准确。</li>
+<li>drop掉的无效数据有：值为NA（无记录）的订单记录、费用小于0美金及费用大于475美金的订单记录、上车地点经度小于-80和大于-70的订单记录、上车地点纬度小于35和大于45的订单记录、下车地点经度小于-80和大于-70的订单记录、下车地点纬度小于35和大于45的订单记录、乘客数小于0位和大于等于10位的订单记录。</li>
+</ol>
+<h1 id="Feature-Engineering（特征工程）：增加新特征、观察特征对模型的contribution、增强特征重要性高的特征"><a href="#Feature-Engineering（特征工程）：增加新特征、观察特征对模型的contribution、增强特征重要性高的特征" class="headerlink" title="Feature Engineering（特征工程）：增加新特征、观察特征对模型的contribution、增强特征重要性高的特征"></a>Feature Engineering（特征工程）：增加新特征、观察特征对模型的contribution、增强特征重要性高的特征</h1><ol>
+<li>特征：distance<br> 利用manhattan distance、Straight distance、Haversine formula for distance、Bearing Distance计算distance</li>
+<li>特征：pickup_datetime</li>
+<li>特征：hour_of_day</li>
+<li>特征：month</li>
+<li>特征：year</li>
+<li>特征：weekday</li>
+<li>特征：day_of_month</li>
+<li>特征：利用manhattan distance计算上车点到肯尼迪机场、纽瓦克自由国际机场、纽约LaGuardia Airport、自由女神像、纽约市中心的距离</li>
+<li>特征：利用Haversine formula for distance计算上车点到肯尼迪机场、纽瓦克自由国际机场、纽约LaGuardia Airport、自由女神像、纽约市中心的距离</li>
+</ol>
+<h1 id="Modelling（模型）"><a href="#Modelling（模型）" class="headerlink" title="Modelling（模型）"></a>Modelling（模型）</h1><ol>
+<li>概述：模型采用LightGBM、XGBoost，并利用Bayesian-optimization来调整每个模型的参数</li>
+<li>每个模型都有参数，跑完模型后会得到rmse值，rmse（均方根误差亦称标准误差），rmse越小，代表与真实误差越小，排名越靠前。</li>
+<li>模型做完后，可以生成feature importance图表，看之前feature engineering中加入的feature对模型结果有没有帮助</li>
+<li>XGBoost速度比LightGBM慢一些，feature importance的代码与LightGBM不一样</li>
+</ol>
+<h1 id="Ensemble-and-Staking"><a href="#Ensemble-and-Staking" class="headerlink" title="Ensemble and Staking"></a>Ensemble and Staking</h1><ol>
+<li>将每个model调整到rmse最优最小的时候，就可以进行这步操作。这步操作通常就是将多种模型进行结合，互相弥补，以达到更好的结果。</li>
+<li>这部分原理见Document。</li>
+</ol>
+<h1 id="NOTE"><a href="#NOTE" class="headerlink" title="NOTE"></a>NOTE</h1><p>本地查看到的rmse并不是上传到kaggle竞赛平台的最后rmse分数。用于预测的test集中并不包含fare amount，我们的model就是基于各种feature去预测打车的费用，所以我们上传到平台的是打车费用，他们后台会匹配我们预测的结果和后台真实值的匹配度，以计算排名和分数。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Chongzheng
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="/http:/mrryan.cn/New-York-City-Taxi-Fare-Prediction.html" title="How to Achieve Top 2% in Kaggle Competition? Teach you step by step through New York City Taxi Fare Prediction">http://mrryan.cn/New-York-City-Taxi-Fare-Prediction.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/null" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Kaggle/" rel="tag"># Kaggle</a>
+              <a href="/tags/Competition/" rel="tag"># Competition</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/JAVA-Most-Asked-Question-In-Examination.html" rel="next" title="The Most Asked Questions in COMP90041(Programming and Software Development)">
+      The Most Asked Questions in COMP90041(Programming and Software Development) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#New-York-City-Taxi-Fare-Prediction-TOP-2-TEAM"><span class="nav-number">1.</span> <span class="nav-text">New York City Taxi Fare Prediction - TOP 2% TEAM!</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#项目概要"><span class="nav-number">2.</span> <span class="nav-text">项目概要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Data简介"><span class="nav-number">3.</span> <span class="nav-text">Data简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Data预处理"><span class="nav-number">4.</span> <span class="nav-text">Data预处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Feature-Engineering（特征工程）：增加新特征、观察特征对模型的contribution、增强特征重要性高的特征"><span class="nav-number">5.</span> <span class="nav-text">Feature Engineering（特征工程）：增加新特征、观察特征对模型的contribution、增强特征重要性高的特征</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Modelling（模型）"><span class="nav-number">6.</span> <span class="nav-text">Modelling（模型）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ensemble-and-Staking"><span class="nav-number">7.</span> <span class="nav-text">Ensemble and Staking</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NOTE"><span class="nav-number">8.</span> <span class="nav-text">NOTE</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chongzheng"
+      src="/images/header.jpg">
+  <p class="site-author-name" itemprop="name">Chongzheng</p>
+  <div class="site-description" itemprop="description">Chongzheng is currently a postgraduate student at the university of melbourne. This blog is aimed to share technical materials and expeiment articles.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ChongzhengZhao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ChongzhengZhao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chongzhengzhao@gmail.com" title="E-Mail → mailto:chongzhengzhao@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/chongzhengzhao" title="Linked-in → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;chongzhengzhao" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Linked-in</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/null" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chongzheng</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="Symbols count total">16k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">15 mins.</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id: 22071,
+      el: 'wpac-rating',
+      color: 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
