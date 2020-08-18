@@ -1,176 +1,553 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>Algorithm - Sorting Algorithm</title>
-      <link href="/Algorithm-Sorting.html"/>
-      <url>/Algorithm-Sorting.html</url>
-      
-        <content type="html"><![CDATA[<h2 id="Sorting-Algorithm-Overview"><a href="#Sorting-Algorithm-Overview" class="headerlink" title="Sorting Algorithm Overview"></a>Sorting Algorithm Overview</h2><ul><li>This chapter introduces commonly used sorting algorithm (Covered all sorting algorithm in COMP90038 course).</li><li>Covered:<ul><li>Selection Sort</li><li>Insertion Sort</li><li>Shell Sort</li><li>Quick Sort</li><li>Merge Sort</li><li>Heap Sort</li><li>Sort by Counting</li><li>Analysis and Comparison between these algorithms(Time-Complexity, Stable, In-place, Input-insensitive)</li><li><strong>Sample Question In Real Examination</strong><a id="more"></a></li></ul></li></ul><h2 id="SelectSort-Brute-Force"><a href="#SelectSort-Brute-Force" class="headerlink" title="SelectSort (Brute Force)"></a>SelectSort (Brute Force)</h2><ul><li>[ABS] Swap the index one and the Selected the smallest one</li><li>[Pseudocode]<br>  function SelectSort(A[~],n) n&lt;-length<pre><code>for i &lt;- 0 to n-2 do    min &lt;- i    for j &lt;- i+1 to n-1 do        if A[j] &lt; A[min] then    //Find the smallest one!            min &lt;- j    t &lt;- A[i]     //Swap A[i] and A[min]    A[i] &lt;- A[min]    A[min] &lt;- t</code></pre></li><li>[Time Complexity]<br>  Basic Operation(A[j] &lt; A[min]), its efforts(1)<br>  Worst recursive times(n^2)<br>  So worst TC belongs to O(n^2)</li><li>[Property]<br>  In-Place? Y<br>  Stable? N<br>  Input-insensitive? Y(No sensitive)</li></ul><h2 id="InsertionSort-Decrease-and-Concur"><a href="#InsertionSort-Decrease-and-Concur" class="headerlink" title="InsertionSort (Decrease and Concur)"></a>InsertionSort (Decrease and Concur)</h2><ul><li>[ABS] Take the index one, and downward to left to find a place to insert.(swap the elements inside the scope if they are not the target to be inserted in)</li><li>[Pseudocode]<br>  function insertionsort(A[~],n)<pre><code>for i &lt;- 1 to n-1 do    v &lt;- A[i]   //take the index one    j &lt;- i - 1  //make a index of comparison target    while j &gt;= 0 and v &lt; A[j] do // skip those non-target        A[j+1] &lt;- A[j]    //swap the non-target to right to make a place        j &lt;- j-1 //downward then    A[j+1] &lt;- v //insert the target to the place(already empty)</code></pre></li><li>[Improvement]<br>  when the minimum element is known, we can put it in the first element, so the j &gt;= 0 statement can be thowrn, just keep v &lt; A[j] is enough.</li><li>[Time Complexity]<br>  Basic Operation(v &lt; A[j]), its efforts(2)<br>  Worst(Reverse order) recursive times(n)<br>  So worst TC belongs to O(2n * n) -&gt;&gt; O(n^2)<br>  Best recursive times(0)<br>  So best TC belongs to O(n)</li><li>[Property]<br>  In-Place? Y<br>  Stable? Y<br>  Input-insensitive? N(sensitive)</li></ul><h2 id="ShellSort-Based-on-InsertionSort-Decrease-and-Concur"><a href="#ShellSort-Based-on-InsertionSort-Decrease-and-Concur" class="headerlink" title="ShellSort (Based on InsertionSort)(Decrease and Concur)"></a>ShellSort (Based on InsertionSort)(Decrease and Concur)</h2><ul><li>[ABS]Based on InsertionSort, it first evenly grouped the elements into K sub-group, and in each group execute the insertionsort, and finally use the insertionsort to finalise the overall result. ##Left element has priority!See code!</li><li>[Pseudocode] NOT EXAMINABLE</li><li>[Time Complexity]<br>  Worst case TC belongs to O(nSQRT(n))</li><li>[Property]<br>  In-Place? Y<br>  Stable? N<br>  Input-insensitive? N(sensitive)</li></ul><h2 id="MergeSort-Divide-and-concur-inluding-divide-and-combine"><a href="#MergeSort-Divide-and-concur-inluding-divide-and-combine" class="headerlink" title="MergeSort (Divide and concur) - inluding divide and combine"></a>MergeSort (Divide and concur) - inluding divide and combine</h2><ul><li>[ABS]First divide into piece of size 1, and then do the merge function(Visually, it is from the left most two pair(initial size is 1) and sorting). </li><li>[Pseudocode] - Divide<br>  function mergesort(A[.],n)<pre><code>if n &gt; 1 then        //State the stopping condition    for i &lt;- 0 to BOTTOM(n/2 -1) do     // Divide the left part to B        B[i] &lt;- A[i]    for i &lt;- 0 to UPPER(n/2 - 1) do     // Divide the right part to C        C[i] &lt;- A[BOTTOM(n/2) + i]    mergesort(B[.],BOTTOM(n/2))    mergesort(C[.],UPPER(n/2))    merge(B[.],BOTTOM(n/2),C[.],UPPER(n/2),A[.])    //Combine</code></pre></li><li>[Pseudocode] - Combine<br>  function merge(B[.],p,C[.],q,A[.])<pre><code>i &lt;- 0, j &lt;- 0, k &lt;- 0        //init three indexeswhile i &lt; p and j &lt; q do     //avoid out of bounds//copy the minimal element to A//see &lt;= , so left element has priority to copy to A when B&amp;C same    if B[i] &lt;= C[j]                A[k] &lt;- B[i]        i &lt;- i + 1    else        A[k] &lt;- C[j]        j &lt;- j + 1    k &lt;- k + 1if i = p then    copy C[j]...C[q-1] to A[k]...A[p+q-1]else    copy B[i]...B[p-1] to A[k]...A[p+q-1]</code></pre></li><li>[Time Complexity]<br>  Divide costs logn, Merge costs n<br>  Total TC belongs to Theta(nlogn)</li><li>[Property]<br>  In-Place? N<br>  Stable? Y (because left element always has priority)<br>  Input-insensitive? Y(insensitive)</li></ul><h2 id="QuickSort-Divide-and-concur-inluding-divide-and-combine-most-efficient-one"><a href="#QuickSort-Divide-and-concur-inluding-divide-and-combine-most-efficient-one" class="headerlink" title="QuickSort (Divide and concur) - inluding divide and combine - most efficient one"></a>QuickSort (Divide and concur) - inluding divide and combine - most efficient one</h2><ul><li>[Pseudocode] - Main<br>  function quicksort(A[.],lo,hi)<pre><code>if lo &lt; hi then    s &lt;- partition(A,lo,hi)  // Remember to assigned the return to s    quicksort(A,lo,s-1)    quicksort(A,s+1,hi)  // Remember it is s+1</code></pre></li><li>[Pseudocode] - Partition<br>  function partition(A[.],lo,hi)<pre><code>p &lt;- A[lo]i &lt;- loj &lt;- hirepeat    while i &lt; hi and A[i] &lt;= p do i &lt;- i + 1    while j &gt;= lo and A[j] &gt; p do j &lt;- j - 1    swap(A[i],A[j])until i &gt;= jswap(A[i],A[j])    // undo last swapswap(A[lo],A[j])     // bring pivot to j positionreturn j</code></pre></li><li>[Improvement 1]<br>When analysing quicksort in the lecture, we noticed that an already sorted array is a worst-case input. Is that still true if we use median-of three pivot selection?<br>Answer: This is no longer a worst case; in fact it becomes a best case! In this case the median-of-three is in fact the array’s median. Hence each of the two recursive calls will be given an array of length at most n/2, where n is the length of the whole array. And the arrays passed to the recursive calls are again already-sorted, so the phenomenon is invariant throughout the calls.</li><li>[Improvement 2]<blockquote><blockquote><p>Slides&lt;&lt;P62</p></blockquote></blockquote></li><li>[Time Complexity]<br>  Worst Case O(n^2)<br>  Best Case O(nlogn)</li><li>[Property]<br>  In-Place? Y<br>  Stable? N<br>  Input-insensitive? N(sensitive)</li></ul><h2 id="HeapSort-Transform-and-Concur"><a href="#HeapSort-Transform-and-Concur" class="headerlink" title="HeapSort (Transform and Concur)"></a>HeapSort (Transform and Concur)</h2><ul><li>[ABS] Heapsort = 构建最大堆 + 删除最高优先级元素</li><li>[Time Complexity]<br>  Insert elements to a heap costs logn + Make it Heighest Heap cost n + deltete the highest priority element cost logn<br>  TC OVERALL O(nlogn)</li><li>[Step]<br>  1.插入后的最大堆平衡 ：右 -&gt; 左 -&gt; 右（最下面的孩子-&gt;父母（若有变）-&gt;孩子重新回去验证）<br>  2.删除最高优先级元素：第一个元素放在最末尾，然后按照插入的步骤重新平衡验证（次最大的接着放在倒数第二个，以此类推）</li><li>[Property]<br>  In-Place? Y<br>  Stable? N<br>  Input-insensitive? Y(insensitive)</li></ul><h2 id="Sort-by-Couting-Use-Space-to-Reduce-Time"><a href="#Sort-by-Couting-Use-Space-to-Reduce-Time" class="headerlink" title="Sort by Couting (Use Space to Reduce Time)"></a>Sort by Couting (Use Space to Reduce Time)</h2><ul><li>[Must Sutisfy] the length N &gt;&gt; number scope! It is not efficient to use when k &gt; nlogn!</li><li>[Time Complexity and steps]<br>  OVERALL COMPLEXITY IS O(n+k) -&gt;&gt; O(n)<ul><li>construct a array B(length k+1), initial all value to 0.[cost O(k+1)]</li><li>from left to right to traverse, and count each element appear times to record in B.[cost O(n)]</li><li>In B, accumulation from left to right.[cost O(k)]</li><li>Construct a array C(length n), left its defalt. [cost O(1)]</li><li>Regard the value of B as index in C, add the value to C.[cost O(n)]</li><li>Overall, cost O(2k+2n+2) -&gt;&gt; O(n+k) -&gt;&gt; O(n) [Linear Complexity]</li></ul></li></ul><h2 id="Comparison-of-Sorting-algorithms"><a href="#Comparison-of-Sorting-algorithms" class="headerlink" title="Comparison of Sorting algorithms"></a>Comparison of Sorting algorithms</h2><ul><li>Comparison<pre><code>In-Place? | Stable? | Input-Insensitive? | Time Complexity</code></pre>BF    SelectSort  |        Y      |       N    |           Y             |     O(n^2)<br>DeC    InsertiSort |        Y      |       Y!   |         N!         |Be-O(n) Wor-O(n^2)<br>DeC    ShellSort    |        Y     |    N    |         N!         |Wor-O(nSQRT(n))<br>DiC    mergesort   |         N     |    Y    |         Y          |       O(nlogn)<br>DiC    quicksort   |        Y     |       N    |          N          |Be-O(nlogn)Wor-O(n^2)<br>TrC    HeapSort    |         Y      |    N    |         Y             |       O(nlogn)</li></ul><h2 id="2017-Sample"><a href="#2017-Sample" class="headerlink" title="2017 Sample"></a>2017 Sample</h2><ul><li>Stable means the order of input elements is unchanged except where change is required to satisfy the requirements. A stable sort applied to a sequence of equal elements will not change their order.</li></ul><h2 id="2017-Sample-1"><a href="#2017-Sample-1" class="headerlink" title="2017 Sample"></a>2017 Sample</h2><ul><li>In-place means that the input and output occupy the same memory storage space. There is no copying of input to output, and the input ceases to exist unless you have made a backup copy. This is a property that often requires an imperative language to express, because pure functional languages do no have a notion of storage space or overwriting data.</li></ul>]]></content>
-      
-      
+<search>
+  <entry>
+    <title>Algorithm - Sorting Algorithm</title>
+    <url>/Algorithm-Sorting.html</url>
+    <content><![CDATA[<h2 id="Sorting-Algorithm-Overview"><a href="#Sorting-Algorithm-Overview" class="headerlink" title="Sorting Algorithm Overview"></a>Sorting Algorithm Overview</h2><ul>
+<li>This chapter introduces commonly used sorting algorithm (Covered all sorting algorithm in COMP90038 course).</li>
+<li>Covered:<ul>
+<li>Selection Sort</li>
+<li>Insertion Sort</li>
+<li>Shell Sort</li>
+<li>Quick Sort</li>
+<li>Merge Sort</li>
+<li>Heap Sort</li>
+<li>Sort by Counting</li>
+<li>Analysis and Comparison between these algorithms(Time-Complexity, Stable, In-place, Input-insensitive)</li>
+<li><strong>Sample Question In Real Examination</strong><a id="more"></a>
+
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="SelectSort-Brute-Force"><a href="#SelectSort-Brute-Force" class="headerlink" title="SelectSort (Brute Force)"></a>SelectSort (Brute Force)</h2><ul>
+<li>[ABS] Swap the index one and the Selected the smallest one</li>
+<li>[Pseudocode]<br>  function SelectSort(A[~],n) n&lt;-length<pre><code>for i &lt;- 0 to n-2 do
+    min &lt;- i
+    for j &lt;- i+1 to n-1 do
+        if A[j] &lt; A[min] then    //Find the smallest one!
+            min &lt;- j
+    t &lt;- A[i]     //Swap A[i] and A[min]
+    A[i] &lt;- A[min]
+    A[min] &lt;- t</code></pre></li>
+<li>[Time Complexity]<br>  Basic Operation(A[j] &lt; A[min]), its efforts(1)<br>  Worst recursive times(n^2)<br>  So worst TC belongs to O(n^2)</li>
+<li>[Property]<br>  In-Place? Y<br>  Stable? N<br>  Input-insensitive? Y(No sensitive)</li>
+</ul>
+<h2 id="InsertionSort-Decrease-and-Concur"><a href="#InsertionSort-Decrease-and-Concur" class="headerlink" title="InsertionSort (Decrease and Concur)"></a>InsertionSort (Decrease and Concur)</h2><ul>
+<li>[ABS] Take the index one, and downward to left to find a place to insert.(swap the elements inside the scope if they are not the target to be inserted in)</li>
+<li>[Pseudocode]<br>  function insertionsort(A[~],n)<pre><code>for i &lt;- 1 to n-1 do
+    v &lt;- A[i]   //take the index one
+    j &lt;- i - 1  //make a index of comparison target
+    while j &gt;= 0 and v &lt; A[j] do // skip those non-target
+        A[j+1] &lt;- A[j]    //swap the non-target to right to make a place
+        j &lt;- j-1 //downward then
+    A[j+1] &lt;- v //insert the target to the place(already empty)</code></pre></li>
+<li>[Improvement]<br>  when the minimum element is known, we can put it in the first element, so the j &gt;= 0 statement can be thowrn, just keep v &lt; A[j] is enough.</li>
+<li>[Time Complexity]<br>  Basic Operation(v &lt; A[j]), its efforts(2)<br>  Worst(Reverse order) recursive times(n)<br>  So worst TC belongs to O(2n * n) -&gt;&gt; O(n^2)<br>  Best recursive times(0)<br>  So best TC belongs to O(n)</li>
+<li>[Property]<br>  In-Place? Y<br>  Stable? Y<br>  Input-insensitive? N(sensitive)</li>
+</ul>
+<h2 id="ShellSort-Based-on-InsertionSort-Decrease-and-Concur"><a href="#ShellSort-Based-on-InsertionSort-Decrease-and-Concur" class="headerlink" title="ShellSort (Based on InsertionSort)(Decrease and Concur)"></a>ShellSort (Based on InsertionSort)(Decrease and Concur)</h2><ul>
+<li>[ABS]Based on InsertionSort, it first evenly grouped the elements into K sub-group, and in each group execute the insertionsort, and finally use the insertionsort to finalise the overall result. ##Left element has priority!See code!</li>
+<li>[Pseudocode] NOT EXAMINABLE</li>
+<li>[Time Complexity]<br>  Worst case TC belongs to O(nSQRT(n))</li>
+<li>[Property]<br>  In-Place? Y<br>  Stable? N<br>  Input-insensitive? N(sensitive)</li>
+</ul>
+<h2 id="MergeSort-Divide-and-concur-inluding-divide-and-combine"><a href="#MergeSort-Divide-and-concur-inluding-divide-and-combine" class="headerlink" title="MergeSort (Divide and concur) - inluding divide and combine"></a>MergeSort (Divide and concur) - inluding divide and combine</h2><ul>
+<li>[ABS]First divide into piece of size 1, and then do the merge function(Visually, it is from the left most two pair(initial size is 1) and sorting). </li>
+<li>[Pseudocode] - Divide<br>  function mergesort(A[.],n)<pre><code>if n &gt; 1 then        //State the stopping condition
+    for i &lt;- 0 to BOTTOM(n/2 -1) do     // Divide the left part to B
+        B[i] &lt;- A[i]
+    for i &lt;- 0 to UPPER(n/2 - 1) do     // Divide the right part to C
+        C[i] &lt;- A[BOTTOM(n/2) + i]
+    mergesort(B[.],BOTTOM(n/2))
+    mergesort(C[.],UPPER(n/2))
+    merge(B[.],BOTTOM(n/2),C[.],UPPER(n/2),A[.])    //Combine</code></pre></li>
+<li>[Pseudocode] - Combine<br>  function merge(B[.],p,C[.],q,A[.])<pre><code>i &lt;- 0, j &lt;- 0, k &lt;- 0        //init three indexes
+while i &lt; p and j &lt; q do     //avoid out of bounds
+//copy the minimal element to A
+//see &lt;= , so left element has priority to copy to A when B&amp;C same
+    if B[i] &lt;= C[j]        
+        A[k] &lt;- B[i]
+        i &lt;- i + 1
+    else
+        A[k] &lt;- C[j]
+        j &lt;- j + 1
+    k &lt;- k + 1
+if i = p then
+    copy C[j]...C[q-1] to A[k]...A[p+q-1]
+else
+    copy B[i]...B[p-1] to A[k]...A[p+q-1]</code></pre></li>
+<li>[Time Complexity]<br>  Divide costs logn, Merge costs n<br>  Total TC belongs to Theta(nlogn)</li>
+<li>[Property]<br>  In-Place? N<br>  Stable? Y (because left element always has priority)<br>  Input-insensitive? Y(insensitive)</li>
+</ul>
+<h2 id="QuickSort-Divide-and-concur-inluding-divide-and-combine-most-efficient-one"><a href="#QuickSort-Divide-and-concur-inluding-divide-and-combine-most-efficient-one" class="headerlink" title="QuickSort (Divide and concur) - inluding divide and combine - most efficient one"></a>QuickSort (Divide and concur) - inluding divide and combine - most efficient one</h2><ul>
+<li>[Pseudocode] - Main<br>  function quicksort(A[.],lo,hi)<pre><code>if lo &lt; hi then
+    s &lt;- partition(A,lo,hi)  // Remember to assigned the return to s
+    quicksort(A,lo,s-1)
+    quicksort(A,s+1,hi)  // Remember it is s+1</code></pre></li>
+<li>[Pseudocode] - Partition<br>  function partition(A[.],lo,hi)<pre><code>p &lt;- A[lo]
+i &lt;- lo
+j &lt;- hi
+repeat
+    while i &lt; hi and A[i] &lt;= p do i &lt;- i + 1
+    while j &gt;= lo and A[j] &gt; p do j &lt;- j - 1
+    swap(A[i],A[j])
+until i &gt;= j
+swap(A[i],A[j])    // undo last swap
+swap(A[lo],A[j])     // bring pivot to j position
+return j</code></pre></li>
+<li>[Improvement 1]<br>When analysing quicksort in the lecture, we noticed that an already sorted array is a worst-case input. Is that still true if we use median-of three pivot selection?<br>Answer: This is no longer a worst case; in fact it becomes a best case! In this case the median-of-three is in fact the array’s median. Hence each of the two recursive calls will be given an array of length at most n/2, where n is the length of the whole array. And the arrays passed to the recursive calls are again already-sorted, so the phenomenon is invariant throughout the calls.</li>
+<li>[Improvement 2]<blockquote>
+<blockquote>
+<p>Slides&lt;&lt;P62</p>
+</blockquote>
+</blockquote>
+</li>
+<li>[Time Complexity]<br>  Worst Case O(n^2)<br>  Best Case O(nlogn)</li>
+<li>[Property]<br>  In-Place? Y<br>  Stable? N<br>  Input-insensitive? N(sensitive)</li>
+</ul>
+<h2 id="HeapSort-Transform-and-Concur"><a href="#HeapSort-Transform-and-Concur" class="headerlink" title="HeapSort (Transform and Concur)"></a>HeapSort (Transform and Concur)</h2><ul>
+<li>[ABS] Heapsort = 构建最大堆 + 删除最高优先级元素</li>
+<li>[Time Complexity]<br>  Insert elements to a heap costs logn + Make it Heighest Heap cost n + deltete the highest priority element cost logn<br>  TC OVERALL O(nlogn)</li>
+<li>[Step]<br>  1.插入后的最大堆平衡 ：右 -&gt; 左 -&gt; 右（最下面的孩子-&gt;父母（若有变）-&gt;孩子重新回去验证）<br>  2.删除最高优先级元素：第一个元素放在最末尾，然后按照插入的步骤重新平衡验证（次最大的接着放在倒数第二个，以此类推）</li>
+<li>[Property]<br>  In-Place? Y<br>  Stable? N<br>  Input-insensitive? Y(insensitive)</li>
+</ul>
+<h2 id="Sort-by-Couting-Use-Space-to-Reduce-Time"><a href="#Sort-by-Couting-Use-Space-to-Reduce-Time" class="headerlink" title="Sort by Couting (Use Space to Reduce Time)"></a>Sort by Couting (Use Space to Reduce Time)</h2><ul>
+<li>[Must Sutisfy] the length N &gt;&gt; number scope! It is not efficient to use when k &gt; nlogn!</li>
+<li>[Time Complexity and steps]<br>  OVERALL COMPLEXITY IS O(n+k) -&gt;&gt; O(n)<ul>
+<li>construct a array B(length k+1), initial all value to 0.[cost O(k+1)]</li>
+<li>from left to right to traverse, and count each element appear times to record in B.[cost O(n)]</li>
+<li>In B, accumulation from left to right.[cost O(k)]</li>
+<li>Construct a array C(length n), left its defalt. [cost O(1)]</li>
+<li>Regard the value of B as index in C, add the value to C.[cost O(n)]</li>
+<li>Overall, cost O(2k+2n+2) -&gt;&gt; O(n+k) -&gt;&gt; O(n) [Linear Complexity]</li>
+</ul>
+</li>
+</ul>
+<h2 id="Comparison-of-Sorting-algorithms"><a href="#Comparison-of-Sorting-algorithms" class="headerlink" title="Comparison of Sorting algorithms"></a>Comparison of Sorting algorithms</h2><ul>
+<li>Comparison<pre><code>In-Place? | Stable? | Input-Insensitive? | Time Complexity</code></pre>BF    SelectSort  |        Y      |       N    |           Y             |     O(n^2)<br>DeC    InsertiSort |        Y      |       Y!   |         N!         |Be-O(n) Wor-O(n^2)<br>DeC    ShellSort    |        Y     |    N    |         N!         |Wor-O(nSQRT(n))<br>DiC    mergesort   |         N     |    Y    |         Y          |       O(nlogn)<br>DiC    quicksort   |        Y     |       N    |          N          |Be-O(nlogn)Wor-O(n^2)<br>TrC    HeapSort    |         Y      |    N    |         Y             |       O(nlogn)</li>
+</ul>
+<h2 id="2017-Sample"><a href="#2017-Sample" class="headerlink" title="2017 Sample"></a>2017 Sample</h2><ul>
+<li>Stable means the order of input elements is unchanged except where change is required to satisfy the requirements. A stable sort applied to a sequence of equal elements will not change their order.</li>
+</ul>
+<h2 id="2017-Sample-1"><a href="#2017-Sample-1" class="headerlink" title="2017 Sample"></a>2017 Sample</h2><ul>
+<li>In-place means that the input and output occupy the same memory storage space. There is no copying of input to output, and the input ceases to exist unless you have made a backup copy. This is a property that often requires an imperative language to express, because pure functional languages do no have a notion of storage space or overwriting data.</li>
+</ul>
+]]></content>
       <categories>
-          
-          <category> Algorithm </category>
-          
-          <category> Unimelb-COMP90038 </category>
-          
+        <category>Algorithm</category>
+        <category>Unimelb-COMP90038</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> algorithm </tag>
-            
-            <tag> University of Melbourne </tag>
-            
-            <tag> Master of Information Technology </tag>
-            
-            <tag> COMP90038 </tag>
-            
-            <tag> Sorting Algorithm </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Algorithm Analysis - Time Complexity</title>
-      <link href="/Algorithm-Time-Complexity.html"/>
-      <url>/Algorithm-Time-Complexity.html</url>
-      
-        <content type="html"><![CDATA[<h2 id="Time-Complexity-Overview"><a href="#Time-Complexity-Overview" class="headerlink" title="Time Complexity Overview"></a>Time Complexity Overview</h2><ul><li>This chapter introduces how to calculate the time complexity of a algorithm no matter it is recursive or just a normal algorithm.</li></ul><a id="more"></a><h2 id="Normal-Algorithm"><a href="#Normal-Algorithm" class="headerlink" title="Normal Algorithm"></a>Normal Algorithm</h2><ul><li>How to find the basic operation:<br>  the innermost</li><li>Expression of Time Complexity<ul><li>O : O(g(n)) means TC is slower than g(n)</li><li>Omega : O(g(n)) means TC is faster than g(n)</li><li>Theta : O(g(n)) means TC is same than g(n)</li></ul></li><li>Calculation Step<ul><li>Basic Operation Efforts * Numbers of execution</li><li>lim n-&gt;Infinity // 求导数<ul><li>Concept<br>  Ignore constant factors<br>  Ignore small input sizes<br>  Think n bigger!!!<br>  1 ≺loglogn ≺logn ≺n^ε ≺n^c ≺n^logn ≺c^n ≺n^n <pre><code>where 0 &lt; ε &lt; 1 &lt; c</code></pre></li></ul></li></ul></li></ul><h2 id="Recursive-Algorithm"><a href="#Recursive-Algorithm" class="headerlink" title="Recursive Algorithm"></a>Recursive Algorithm</h2><ul><li>TC consist of TWO PARTS : ENDING POINT EFFORT + RECURSIVE EFFORT</li><li>EXAMPLE (&gt;&gt;Dueape&lt;&lt;P21)</li><li>Use Telescoping to Calculate the RECURSIVE EFFORT</li></ul><h2 id="Master-Theorem"><a href="#Master-Theorem" class="headerlink" title="Master Theorem"></a>Master Theorem</h2><ul><li>T(n) = aT(n/b) + f(n)  f(n) Belongs To Theta(n^d)<blockquote><blockquote><p>T(n) = Theta(n^d) if a &lt; b^d<br>T(n) = Theta(logn * n^d) if a = b^d<br>T(n) = Theta(n^logb(a)) if a &gt; b^d</p></blockquote></blockquote></li></ul>]]></content>
-      
-      
+      <tags>
+        <tag>algorithm</tag>
+        <tag>University of Melbourne</tag>
+        <tag>Master of Information Technology</tag>
+        <tag>COMP90038</tag>
+        <tag>Sorting Algorithm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Algorithm Analysis - Time Complexity</title>
+    <url>/Algorithm-Time-Complexity.html</url>
+    <content><![CDATA[<h2 id="Time-Complexity-Overview"><a href="#Time-Complexity-Overview" class="headerlink" title="Time Complexity Overview"></a>Time Complexity Overview</h2><ul>
+<li>This chapter introduces how to calculate the time complexity of a algorithm no matter it is recursive or just a normal algorithm.</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="Normal-Algorithm"><a href="#Normal-Algorithm" class="headerlink" title="Normal Algorithm"></a>Normal Algorithm</h2><ul>
+<li>How to find the basic operation:<br>  the innermost</li>
+<li>Expression of Time Complexity<ul>
+<li>O : O(g(n)) means TC is slower than g(n)</li>
+<li>Omega : O(g(n)) means TC is faster than g(n)</li>
+<li>Theta : O(g(n)) means TC is same than g(n)</li>
+</ul>
+</li>
+<li>Calculation Step<ul>
+<li>Basic Operation Efforts * Numbers of execution</li>
+<li>lim n-&gt;Infinity // 求导数<ul>
+<li>Concept<br>  Ignore constant factors<br>  Ignore small input sizes<br>  Think n bigger!!!<br>  1 ≺loglogn ≺logn ≺n^ε ≺n^c ≺n^logn ≺c^n ≺n^n <pre><code>where 0 &lt; ε &lt; 1 &lt; c</code></pre></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Recursive-Algorithm"><a href="#Recursive-Algorithm" class="headerlink" title="Recursive Algorithm"></a>Recursive Algorithm</h2><ul>
+<li>TC consist of TWO PARTS : ENDING POINT EFFORT + RECURSIVE EFFORT</li>
+<li>EXAMPLE (&gt;&gt;Dueape&lt;&lt;P21)</li>
+<li>Use Telescoping to Calculate the RECURSIVE EFFORT</li>
+</ul>
+<h2 id="Master-Theorem"><a href="#Master-Theorem" class="headerlink" title="Master Theorem"></a>Master Theorem</h2><ul>
+<li>T(n) = aT(n/b) + f(n)  f(n) Belongs To Theta(n^d)<blockquote>
+<blockquote>
+<p>T(n) = Theta(n^d) if a &lt; b^d<br>T(n) = Theta(logn * n^d) if a = b^d<br>T(n) = Theta(n^logb(a)) if a &gt; b^d</p>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+]]></content>
       <categories>
-          
-          <category> Algorithm </category>
-          
-          <category> Unimelb-COMP90038 </category>
-          
+        <category>Algorithm</category>
+        <category>Unimelb-COMP90038</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> algorithm </tag>
-            
-            <tag> University of Melbourne </tag>
-            
-            <tag> Master of Information Technology </tag>
-            
-            <tag> COMP90038 </tag>
-            
-            <tag> Time Complexity </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Algorithm Analysis - Data Structure</title>
-      <link href="/Algorithm-Data-Structure.html"/>
-      <url>/Algorithm-Data-Structure.html</url>
-      
-        <content type="html"><![CDATA[<h2 id="Data-Structure-Overview"><a href="#Data-Structure-Overview" class="headerlink" title="Data Structure Overview"></a>Data Structure Overview</h2><ul><li>Array</li><li>Linked List</li><li>Stack</li><li>Queue</li><li>Priority Queue</li><li>Binary Tree</li><li>Hashing</li></ul><a id="more"></a><h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><ul><li><p>Search Pseudocode (Recursive)</p><p>  “””<br>  function find(A,x,lo,hi)   lo-&gt;0 hi-&gt;n-1</p><pre><code>if lo &gt; hi    return -1else if lo = A[lo]    return loelse    return find(A,x,lo+1,hi)</code></pre><p>  “””</p></li></ul><h2 id="Link-List"><a href="#Link-List" class="headerlink" title="Link List"></a>Link List</h2><ul><li>Node and Pointer(The pointer in last node is null)</li><li>Function<ul><li>Value - ListName.val</li><li>Next Value - ListName.next</li></ul></li><li>Search Pseudocode (Recursive)<br>  “”“<br>  function find(p,x)    p-&gt;head<pre><code>if p = null then    return pelse if p.val = x    return pelse    return find(p.next,x)</code></pre>  ”“”</li></ul><h2 id="Stack"><a href="#Stack" class="headerlink" title="Stack"></a>Stack</h2><ul><li>Property： Last In First Out</li><li>Function：<ul><li>Initial - initilise st as an empty stack</li><li>Add - st.push(element)</li><li>Out - st.pop()</li><li>Null judgement - if st is empty</li></ul></li></ul><h2 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a>Queue</h2><ul><li>Property： First In First Out</li><li>Function：<ul><li>Initial - init(queue)</li><li>Add - inject(queue,element)</li><li>Out - eject(queue)</li><li>Null judgement - if queue is empty</li><li>Head - queue.head()</li></ul></li></ul><h2 id="Binary-Tree"><a href="#Binary-Tree" class="headerlink" title="Binary Tree"></a>Binary Tree</h2><ul><li>Property：<ul><li>Empty Tree Height = -1</li></ul></li><li>Traveral：<ul><li>Pre-order</li><li>In-order</li><li>Post-order</li></ul></li><li>Binary Search Tree [Based on Binary Tree]<br>  [Property]<pre><code>Left Child is LESS THAN Parents;Right Child is LARGER (OR EQUAL) TO Parents;</code></pre>  [Count Quantity of Diff elements]<pre><code>B(n+1) = B(n) * B(0) + B(n-1) * (1) ... + B(0) * B(n)</code></pre></li><li>(AVL)Balanced Binary Search Tree [Based on Binary Search Tree]<br>  [Property]<pre><code>Left Child is LESS THAN Parents;Right Child is LARGER (OR EQUAL) TO Parents;[!]The |difference between two children| must be &lt;= 1</code></pre>  [Balanced Rule]<pre><code>L-RotationR-RotationLR-RotationRL-Rotation</code></pre></li><li>(2-3Tree)Balanced Binary Search Tree [Based on Binary Search Tree]</li></ul><h2 id="Priority-Queue-max-heap-amp-min-heap"><a href="#Priority-Queue-max-heap-amp-min-heap" class="headerlink" title="Priority Queue(max heap &amp; min heap)"></a>Priority Queue(max heap &amp; min heap)</h2><ul><li>[Time Complexity]<br>  Add element - O(logn)<br>  Delete the heighest priority element - O(logn)<br>  Add elements to empty heap - O(nlogn)<br>  Create a complete binary tree first and then construct from bottom up - O(n)</li></ul><h2 id="Hashing-Use-Space-to-Reduce-Time"><a href="#Hashing-Use-Space-to-Reduce-Time" class="headerlink" title="Hashing (Use Space to Reduce Time)"></a>Hashing (Use Space to Reduce Time)</h2><ul><li>[Handle Collision]<ul><li>Separate Chain : Use link list<br>  Load Factor(alpha) = n/m ; n:the number of items stored, m: the table size<br>  Number of probes in successful search: (1+alpha)/2<pre><code>Number of probes in unsuccessful search: alpha</code></pre></li><li>Open-addressing methods<ul><li>Linear probing : Store in the next index<br>Number of probes in successful search: 0.5+1/(2(1-alpha))<br>Number of probes in unsuccessful search: 0.5+1/(2(1-alpha)^2)<br>#PS 在Linear Probe中查找一个已经被移过位置的key是unsuccessful probing</li><li>Double hashing : Use another hashing function s(k) to add to the original index[h(k)+s(k)]. If collision again, add 2s(k)……</li></ul></li></ul></li></ul><h2 id="Graphs"><a href="#Graphs" class="headerlink" title="Graphs"></a>Graphs</h2><ul><li>[Property] <ul><li>Vertex[V], Edges[E], Weight —&gt;&gt;&gt; G&lt;V,E&gt;</li><li>Edge(u,v) means the edge between node u and node v</li><li>two nodes is connected, then we call v and u are ADJACENT or NEIGHBOURS</li><li>Degree : NUMBER of EDGES connected on a node<ul><li>In-degree : NUMBER of EDGES GOING TO v</li><li>Out-degree : NUMBER of EDGES LEAVING FROM v</li></ul></li></ul></li><li>[Graph Representation]<ul><li>Adjacency Matrix<ul><li>0 means not connected, 1 means they are connected</li><li>for undirrected graph, the AM is Symmetric(对称)</li></ul></li><li>Adjacency List<ul><li>e.g (a -&gt; b -&gt; c -&gt; d)</li></ul></li></ul></li></ul>]]></content>
-      
-      
+      <tags>
+        <tag>algorithm</tag>
+        <tag>University of Melbourne</tag>
+        <tag>Master of Information Technology</tag>
+        <tag>COMP90038</tag>
+        <tag>Time Complexity</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Algorithm Analysis - Data Structure</title>
+    <url>/Algorithm-Data-Structure.html</url>
+    <content><![CDATA[<h2 id="Data-Structure-Overview"><a href="#Data-Structure-Overview" class="headerlink" title="Data Structure Overview"></a>Data Structure Overview</h2><ul>
+<li>Array</li>
+<li>Linked List</li>
+<li>Stack</li>
+<li>Queue</li>
+<li>Priority Queue</li>
+<li>Binary Tree</li>
+<li>Hashing</li>
+</ul>
+<a id="more"></a>
+<h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><ul>
+<li><p>Search Pseudocode (Recursive)</p>
+<p>  “””<br>  function find(A,x,lo,hi)   lo-&gt;0 hi-&gt;n-1</p>
+<pre><code>if lo &gt; hi
+    return -1
+else if lo = A[lo]
+    return lo
+else
+    return find(A,x,lo+1,hi)</code></pre><p>  “””</p>
+</li>
+</ul>
+<h2 id="Link-List"><a href="#Link-List" class="headerlink" title="Link List"></a>Link List</h2><ul>
+<li>Node and Pointer(The pointer in last node is null)</li>
+<li>Function<ul>
+<li>Value - ListName.val</li>
+<li>Next Value - ListName.next</li>
+</ul>
+</li>
+<li>Search Pseudocode (Recursive)<br>  “”“<br>  function find(p,x)    p-&gt;head<pre><code>if p = null then
+    return p
+else if p.val = x
+    return p
+else
+    return find(p.next,x)</code></pre>  ”“”</li>
+</ul>
+<h2 id="Stack"><a href="#Stack" class="headerlink" title="Stack"></a>Stack</h2><ul>
+<li>Property： Last In First Out</li>
+<li>Function：<ul>
+<li>Initial - initilise st as an empty stack</li>
+<li>Add - st.push(element)</li>
+<li>Out - st.pop()</li>
+<li>Null judgement - if st is empty</li>
+</ul>
+</li>
+</ul>
+<h2 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a>Queue</h2><ul>
+<li>Property： First In First Out</li>
+<li>Function：<ul>
+<li>Initial - init(queue)</li>
+<li>Add - inject(queue,element)</li>
+<li>Out - eject(queue)</li>
+<li>Null judgement - if queue is empty</li>
+<li>Head - queue.head()</li>
+</ul>
+</li>
+</ul>
+<h2 id="Binary-Tree"><a href="#Binary-Tree" class="headerlink" title="Binary Tree"></a>Binary Tree</h2><ul>
+<li>Property：<ul>
+<li>Empty Tree Height = -1</li>
+</ul>
+</li>
+<li>Traveral：<ul>
+<li>Pre-order</li>
+<li>In-order</li>
+<li>Post-order</li>
+</ul>
+</li>
+<li>Binary Search Tree [Based on Binary Tree]<br>  [Property]<pre><code>Left Child is LESS THAN Parents;
+Right Child is LARGER (OR EQUAL) TO Parents;</code></pre>  [Count Quantity of Diff elements]<pre><code>B(n+1) = B(n) * B(0) + B(n-1) * (1) ... + B(0) * B(n)</code></pre></li>
+<li>(AVL)Balanced Binary Search Tree [Based on Binary Search Tree]<br>  [Property]<pre><code>Left Child is LESS THAN Parents;
+Right Child is LARGER (OR EQUAL) TO Parents;
+[!]The |difference between two children| must be &lt;= 1</code></pre>  [Balanced Rule]<pre><code>L-Rotation
+R-Rotation
+LR-Rotation
+RL-Rotation</code></pre></li>
+<li>(2-3Tree)Balanced Binary Search Tree [Based on Binary Search Tree]</li>
+</ul>
+<h2 id="Priority-Queue-max-heap-amp-min-heap"><a href="#Priority-Queue-max-heap-amp-min-heap" class="headerlink" title="Priority Queue(max heap &amp; min heap)"></a>Priority Queue(max heap &amp; min heap)</h2><ul>
+<li>[Time Complexity]<br>  Add element - O(logn)<br>  Delete the heighest priority element - O(logn)<br>  Add elements to empty heap - O(nlogn)<br>  Create a complete binary tree first and then construct from bottom up - O(n)</li>
+</ul>
+<h2 id="Hashing-Use-Space-to-Reduce-Time"><a href="#Hashing-Use-Space-to-Reduce-Time" class="headerlink" title="Hashing (Use Space to Reduce Time)"></a>Hashing (Use Space to Reduce Time)</h2><ul>
+<li>[Handle Collision]<ul>
+<li>Separate Chain : Use link list<br>  Load Factor(alpha) = n/m ; n:the number of items stored, m: the table size<br>  Number of probes in successful search: (1+alpha)/2<pre><code>Number of probes in unsuccessful search: alpha</code></pre></li>
+<li>Open-addressing methods<ul>
+<li>Linear probing : Store in the next index<br>Number of probes in successful search: 0.5+1/(2(1-alpha))<br>Number of probes in unsuccessful search: 0.5+1/(2(1-alpha)^2)<br>#PS 在Linear Probe中查找一个已经被移过位置的key是unsuccessful probing</li>
+<li>Double hashing : Use another hashing function s(k) to add to the original index[h(k)+s(k)]. If collision again, add 2s(k)……</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Graphs"><a href="#Graphs" class="headerlink" title="Graphs"></a>Graphs</h2><ul>
+<li>[Property] <ul>
+<li>Vertex[V], Edges[E], Weight —&gt;&gt;&gt; G&lt;V,E&gt;</li>
+<li>Edge(u,v) means the edge between node u and node v</li>
+<li>two nodes is connected, then we call v and u are ADJACENT or NEIGHBOURS</li>
+<li>Degree : NUMBER of EDGES connected on a node<ul>
+<li>In-degree : NUMBER of EDGES GOING TO v</li>
+<li>Out-degree : NUMBER of EDGES LEAVING FROM v</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>[Graph Representation]<ul>
+<li>Adjacency Matrix<ul>
+<li>0 means not connected, 1 means they are connected</li>
+<li>for undirrected graph, the AM is Symmetric(对称)</li>
+</ul>
+</li>
+<li>Adjacency List<ul>
+<li>e.g (a -&gt; b -&gt; c -&gt; d)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
       <categories>
-          
-          <category> Algorithm </category>
-          
-          <category> Unimelb-COMP90038 </category>
-          
+        <category>Algorithm</category>
+        <category>Unimelb-COMP90038</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> algorithm </tag>
-            
-            <tag> data strcture </tag>
-            
-            <tag> University of Melbourne </tag>
-            
-            <tag> Master of Information Technology </tag>
-            
-            <tag> COMP90038 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>The Most Asked Questions in COMP90041(Programming and Software Development)</title>
-      <link href="/JAVA-Most-Asked-Question-In-Examination.html"/>
-      <url>/JAVA-Most-Asked-Question-In-Examination.html</url>
-      
-        <content type="html"><![CDATA[<ul><li>These top 15 questions are squeezed from nearly all searchable examination papers online</li><li>This post is only useful for unimelb student from COMP90041 course</li></ul><a id="more"></a><ol><li><p>Why instance variables should be declared PRIVATE?</p><ul><li>if not private, the class cannot control access and modification of instance variables, because other classes also can access and modify them.</li><li>if not private, it is expensive to remove or change them, because making it public will require significant modification to other classes.</li></ul></li><li><p>Class variable is what?</p><ul><li>A class variable is any variable declared with “static”. It is a special type of class attribute.</li></ul></li><li><p>Println mechanism for why it can print any any any objects</p><ul><li>“System” class has an instance variable called “out”.</li><li>the “out” class defines “println” method.</li><li>the method is overloaded to support all primitive types, String and objects.</li><li>for passing objects to the method, it will use object’s “toString” method to represent the objects and send the representation to the output stream.</li></ul></li><li><p>Static method VS Non-static method.</p><ul><li>Static method do not have “this” parameter</li><li>Because it can be invoked without sending a message to any object</li><li>it prevents many actions that non-static method can performe.</li><li>prevent e.g. access, set instance variables of the class</li><li>prevent e.g. call other non-static methods of the class</li></ul></li><li><p>Constructor do what? Why usually overloaded?</p><ul><li>Constrctor is for initializing the instance variables to appropriate value.</li><li>Make JAVA polymorphism: an ad hoc feature. It allows a single piece of code to work for many different types of objects.</li><li>Default(no-argument constructor):An empty constructor is needed to create a new instance via reflection by your persistence framework. </li></ul></li><li><p>Abstract class VS Concrete class</p><ul><li>Abstract Class:</li><li>Abstract class permits to have abstract methods(method with header but no bodies).</li><li>Used to specify an interface without implementing any methods.</li><li>Not permit to create an instance of abstract class</li><li>Allow extend from another abstract class</li><li>Concrete Class:</li><li>Concrete class not permits to have abstract methods.</li><li>Concrete Class can extend abstract class when specify and override all abstract methods and even add other concrete methods.</li></ul></li><li><p>Overloading VS Overriding</p><ul><li>Overloading:</li><li>with same method name but different signatures in one class</li><li>Overridding:</li><li>derived class redefines an inherited method in the base class, with same signature.</li></ul></li></ol><ol start="8"><li><p>Visibility of public VS protected.</p><ul><li>public members can be accessed from any methods in any classes</li><li>protected member can only be accessed from the same package and any other classes that inherited from the member’s class.</li><li>CAN GIVE EXAMPLE</li></ul></li><li><p>List all Visibility(Permission) modifiers. which one is prefered visibility for instance variables?</p><ul><li>Public, Protected, Private(preferred in instance variables)</li></ul></li><li><p>Single inheritance VS Multiple inheritance</p><ul><li>Single inheritance:</li><li>each class can be derived from at most one class. </li><li>JAVA onely support this because only extend one class.</li><li>Multiple inheritance:</li><li>each class can be derived from more than one class.</li><li>JAVA can implement more than one interfaces, however it cannot be inherited for method function, only interface(it is abstract). </li></ul></li></ol><ol start="11"><li><p>Why output excute the actual body instead of the type?(Type NAME = new ACTUALTYPE())</p><ul><li>An upcasting changes its type only, not change its actual body.</li><li>the function will use the method in actual body.</li><li>It is called LATE BINDING!</li></ul></li><li><p>Privacy leak. Why leak although declare Private? How to prevent? Example?</p><ul><li>Privacy leak happened when method of another class get ahold of mutable objects stored in private instance variables.</li><li>Prevent:</li><li>Use an immutable object, such as String to hold data.</li><li>Using copy constrctor to copy mutable object before storing or returning it.</li><li>Simply do not any such methods to store or return such objects in instance variables.</li></ul></li><li><p>What is polymorphism? why use? how use? example?</p><ul><li>Polymorphism is the feature that allows a single piece of code to work for many different types of objects</li><li>JAVA use polymorphism in three ways: Ad hoc(overloading), Subtype(inheritance &amp; overridding), Parametric(generic).</li><li>SAY EACH FUNCTION OF THEM AND GIVE A PIECE OF CODE FOR EXAMPLE</li></ul></li><li><p>Generic type - is what? when support in JAVA? improve what in Arraylist in former version of JAVA?</p><ul><li>generic types are types that have parameters</li><li>for example: ArrayList<String> carry all the elements with type String</li><li>it better specify the program intensions</li><li>allow JAVA compiler to produce more specific error message when intension is violated.</li><li></li><li>Generic type example - ArrayList</li><li>Before JAVA 5, elements with any types can input to an arraylist</li><li>each objects from arraylist need to be cast to an appropriate data type</li><li>sometime it will cause runtime problem if choose wrong cast type</li><li>But in JAVA 5, the type of arraylist can be specified</li><li>no need to cast types like that because only one type will come out of an arraylist.</li></ul></li><li><p>Wrapper Class is what? When useful? Example of a standard wrapper class.</p><ul><li>each primitive types have wrapper class which stores one primitive value</li><li>each has a one-argument constrctor to create the object(boxing)</li><li>each has a no-arugment getter to get the primitive value(unboxing)</li><li>wrapper classes are immutable</li><li>Example below</li><li>Used to convert any data type into an object</li><li>Like: integer class is a wrapper class for the primitive type int which contains several methods to deal with int value like converting it to a string or convert from string. An object of Integer class can hold a single int value.</li></ul></li></ol><p><strong>Good Luck for your final exam!</strong></p>]]></content>
-      
-      
+      <tags>
+        <tag>algorithm</tag>
+        <tag>data strcture</tag>
+        <tag>University of Melbourne</tag>
+        <tag>Master of Information Technology</tag>
+        <tag>COMP90038</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>The Most Asked Questions in COMP90041(Programming and Software Development)</title>
+    <url>/JAVA-Most-Asked-Question-In-Examination.html</url>
+    <content><![CDATA[<ul>
+<li>These top 15 questions are squeezed from nearly all searchable examination papers online</li>
+<li>This post is only useful for unimelb student from COMP90041 course</li>
+</ul>
+<a id="more"></a>
+
+<ol>
+<li><p>Why instance variables should be declared PRIVATE?</p>
+<ul>
+<li>if not private, the class cannot control access and modification of instance variables, because other classes also can access and modify them.</li>
+<li>if not private, it is expensive to remove or change them, because making it public will require significant modification to other classes.</li>
+</ul>
+</li>
+<li><p>Class variable is what?</p>
+<ul>
+<li>A class variable is any variable declared with “static”. It is a special type of class attribute.</li>
+</ul>
+</li>
+<li><p>Println mechanism for why it can print any any any objects</p>
+<ul>
+<li>“System” class has an instance variable called “out”.</li>
+<li>the “out” class defines “println” method.</li>
+<li>the method is overloaded to support all primitive types, String and objects.</li>
+<li>for passing objects to the method, it will use object’s “toString” method to represent the objects and send the representation to the output stream.</li>
+</ul>
+</li>
+<li><p>Static method VS Non-static method.</p>
+<ul>
+<li>Static method do not have “this” parameter</li>
+<li>Because it can be invoked without sending a message to any object</li>
+<li>it prevents many actions that non-static method can performe.</li>
+<li>prevent e.g. access, set instance variables of the class</li>
+<li>prevent e.g. call other non-static methods of the class</li>
+</ul>
+</li>
+<li><p>Constructor do what? Why usually overloaded?</p>
+<ul>
+<li>Constrctor is for initializing the instance variables to appropriate value.</li>
+<li>Make JAVA polymorphism: an ad hoc feature. It allows a single piece of code to work for many different types of objects.</li>
+<li>Default(no-argument constructor):An empty constructor is needed to create a new instance via reflection by your persistence framework. </li>
+</ul>
+</li>
+<li><p>Abstract class VS Concrete class</p>
+<ul>
+<li>Abstract Class:</li>
+<li>Abstract class permits to have abstract methods(method with header but no bodies).</li>
+<li>Used to specify an interface without implementing any methods.</li>
+<li>Not permit to create an instance of abstract class</li>
+<li>Allow extend from another abstract class</li>
+<li>Concrete Class:</li>
+<li>Concrete class not permits to have abstract methods.</li>
+<li>Concrete Class can extend abstract class when specify and override all abstract methods and even add other concrete methods.</li>
+</ul>
+</li>
+<li><p>Overloading VS Overriding</p>
+<ul>
+<li>Overloading:</li>
+<li>with same method name but different signatures in one class</li>
+<li>Overridding:</li>
+<li>derived class redefines an inherited method in the base class, with same signature.</li>
+</ul>
+</li>
+</ol>
+<ol start="8">
+<li><p>Visibility of public VS protected.</p>
+<ul>
+<li>public members can be accessed from any methods in any classes</li>
+<li>protected member can only be accessed from the same package and any other classes that inherited from the member’s class.</li>
+<li>CAN GIVE EXAMPLE</li>
+</ul>
+</li>
+<li><p>List all Visibility(Permission) modifiers. which one is prefered visibility for instance variables?</p>
+<ul>
+<li>Public, Protected, Private(preferred in instance variables)</li>
+</ul>
+</li>
+<li><p>Single inheritance VS Multiple inheritance</p>
+<ul>
+<li>Single inheritance:</li>
+<li>each class can be derived from at most one class. </li>
+<li>JAVA onely support this because only extend one class.</li>
+<li>Multiple inheritance:</li>
+<li>each class can be derived from more than one class.</li>
+<li>JAVA can implement more than one interfaces, however it cannot be inherited for method function, only interface(it is abstract). </li>
+</ul>
+</li>
+</ol>
+<ol start="11">
+<li><p>Why output excute the actual body instead of the type?(Type NAME = new ACTUALTYPE())</p>
+<ul>
+<li>An upcasting changes its type only, not change its actual body.</li>
+<li>the function will use the method in actual body.</li>
+<li>It is called LATE BINDING!</li>
+</ul>
+</li>
+<li><p>Privacy leak. Why leak although declare Private? How to prevent? Example?</p>
+<ul>
+<li>Privacy leak happened when method of another class get ahold of mutable objects stored in private instance variables.</li>
+<li>Prevent:</li>
+<li>Use an immutable object, such as String to hold data.</li>
+<li>Using copy constrctor to copy mutable object before storing or returning it.</li>
+<li>Simply do not any such methods to store or return such objects in instance variables.</li>
+</ul>
+</li>
+<li><p>What is polymorphism? why use? how use? example?</p>
+<ul>
+<li>Polymorphism is the feature that allows a single piece of code to work for many different types of objects</li>
+<li>JAVA use polymorphism in three ways: Ad hoc(overloading), Subtype(inheritance &amp; overridding), Parametric(generic).</li>
+<li>SAY EACH FUNCTION OF THEM AND GIVE A PIECE OF CODE FOR EXAMPLE</li>
+</ul>
+</li>
+<li><p>Generic type - is what? when support in JAVA? improve what in Arraylist in former version of JAVA?</p>
+<ul>
+<li>generic types are types that have parameters</li>
+<li>for example: ArrayList<String> carry all the elements with type String</li>
+<li>it better specify the program intensions</li>
+<li>allow JAVA compiler to produce more specific error message when intension is violated.</li>
+<li></li>
+<li>Generic type example - ArrayList</li>
+<li>Before JAVA 5, elements with any types can input to an arraylist</li>
+<li>each objects from arraylist need to be cast to an appropriate data type</li>
+<li>sometime it will cause runtime problem if choose wrong cast type</li>
+<li>But in JAVA 5, the type of arraylist can be specified</li>
+<li>no need to cast types like that because only one type will come out of an arraylist.</li>
+</ul>
+</li>
+<li><p>Wrapper Class is what? When useful? Example of a standard wrapper class.</p>
+<ul>
+<li>each primitive types have wrapper class which stores one primitive value</li>
+<li>each has a one-argument constrctor to create the object(boxing)</li>
+<li>each has a no-arugment getter to get the primitive value(unboxing)</li>
+<li>wrapper classes are immutable</li>
+<li>Example below</li>
+<li>Used to convert any data type into an object</li>
+<li>Like: integer class is a wrapper class for the primitive type int which contains several methods to deal with int value like converting it to a string or convert from string. An object of Integer class can hold a single int value.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Good Luck for your final exam!</strong></p>
+]]></content>
       <categories>
-          
-          <category> Programming and Software Development </category>
-          
-          <category> Unimelb-COMP90041 </category>
-          
+        <category>Programming and Software Development</category>
+        <category>Unimelb-COMP90041</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> University of Melbourne </tag>
-            
-            <tag> Master of Information Technology </tag>
-            
-            <tag> JAVA </tag>
-            
-            <tag> COMP90041 </tag>
-            
-            <tag> Programming and Software Development </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>How to Achieve Top 2% in Kaggle Competition? Teach you step by step through New York City Taxi Fare Prediction</title>
-      <link href="/New-York-City-Taxi-Fare-Prediction.html"/>
-      <url>/New-York-City-Taxi-Fare-Prediction.html</url>
-      
-        <content type="html"><![CDATA[<h1 id="New-York-City-Taxi-Fare-Prediction-TOP-2-TEAM"><a href="#New-York-City-Taxi-Fare-Prediction-TOP-2-TEAM" class="headerlink" title="New York City Taxi Fare Prediction - TOP 2% TEAM!"></a>New York City Taxi Fare Prediction - TOP 2% TEAM!</h1><ul><li><strong>Author: Chongzheng Zhao</strong></li><li><strong>Kaggle Competition - New York City Taxi Fare Prediction</strong></li><li><strong>FINAL BEAT 1454 TEAMS!</strong></li><li><strong>We team NYCTAXI located at 30 out of 1484 teams, Top 2%!</strong></li><li><strong>Final Score 2.86770</strong></li><li><strong>Competition Official Website: <a href="https://www.kaggle.com/c/new-york-city-taxi-fare-prediction" target="_blank" rel="noopener">https://www.kaggle.com/c/new-york-city-taxi-fare-prediction</a></strong></li><li><strong>To see the leaderboard(competition result): <a href="https://www.kaggle.com/c/new-york-city-taxi-fare-prediction/leaderboard" target="_blank" rel="noopener">https://www.kaggle.com/c/new-york-city-taxi-fare-prediction/leaderboard</a></strong></li><li><strong>Welcome to my Github Profile: <a href="https://github.com/ChongzhengZhao/" target="_blank" rel="noopener">https://github.com/ChongzhengZhao/</a></strong></li><li><strong>Welcome to my Kaggle Profile: <a href="https://www.kaggle.com/chongzhengzhao" target="_blank" rel="noopener">https://www.kaggle.com/chongzhengzhao</a></strong></li><li><strong>Welcome to my Linkedin Profile: <a href="https://www.linkedin.com/in/chongzhengzhao/" target="_blank" rel="noopener">https://www.linkedin.com/in/chongzhengzhao/</a></strong></li></ul><a id="more"></a> <h1 id="项目概要"><a href="#项目概要" class="headerlink" title="项目概要"></a>项目概要</h1><ul><li>按照项目步骤，拿到Raw Data后，按照顺序进行data预处理、feature engineering（特征工程）、做model（模型）、ensemble and stacking。</li></ul><h1 id="Data简介"><a href="#Data简介" class="headerlink" title="Data简介"></a>Data简介</h1><ol><li>New York City Taxi Fare Prediction项目的数据集将近有55million rows，这在kaggle比赛中算比较大的数据集了，这种数据集需要在性能较高电脑中才能处理效率高，并且数据大带来的model调参也比较困难</li><li>DATA KEY， FEATURES ADN TARGET<br>key -  <pre><code>Unique string identifying each row in both the training and test sets. Comprised of pickup_datetime plus a unique integer, but this doesn&apos;t matter, it should just be used as a unique ID field. Required in your submission CSV. Not necessarily needed in the training set, but could be useful to simulate a &apos;submission file&apos; while doing cross-validation within the training set.</code></pre>Features - <pre><code>pickup_datetime - timestamp value indicating when the taxi ride started.pickup_longitude - float for longitude coordinate of where the taxi ride started.pickup_latitude - float for latitude coordinate of where the taxi ride started.dropoff_longitude - float for longitude coordinate of where the taxi ride ended.dropoff_latitude - float for latitude coordinate of where the taxi ride ended.passenger_count - integer indicating the number of passengers in the taxi ride.</code></pre>Target - <pre><code>fare_amount - float dollar amount of the cost of the taxi ride. This value is only in the training set; this is what you are predicting in the test set and it is required in your submission CSV.</code></pre></li></ol><h1 id="Data预处理"><a href="#Data预处理" class="headerlink" title="Data预处理"></a>Data预处理</h1><ol><li>data中有很多data outlier无效数据，要drop掉那些数据，使得model进行训练的时候使用正确数据进行，得到的model更准确。</li><li>drop掉的无效数据有：值为NA（无记录）的订单记录、费用小于0美金及费用大于475美金的订单记录、上车地点经度小于-80和大于-70的订单记录、上车地点纬度小于35和大于45的订单记录、下车地点经度小于-80和大于-70的订单记录、下车地点纬度小于35和大于45的订单记录、乘客数小于0位和大于等于10位的订单记录。</li></ol><h1 id="Feature-Engineering（特征工程）：增加新特征、观察特征对模型的contribution、增强特征重要性高的特征"><a href="#Feature-Engineering（特征工程）：增加新特征、观察特征对模型的contribution、增强特征重要性高的特征" class="headerlink" title="Feature Engineering（特征工程）：增加新特征、观察特征对模型的contribution、增强特征重要性高的特征"></a>Feature Engineering（特征工程）：增加新特征、观察特征对模型的contribution、增强特征重要性高的特征</h1><ol><li>特征：distance<br> 利用manhattan distance、Straight distance、Haversine formula for distance、Bearing Distance计算distance</li><li>特征：pickup_datetime</li><li>特征：hour_of_day</li><li>特征：month</li><li>特征：year</li><li>特征：weekday</li><li>特征：day_of_month</li><li>特征：利用manhattan distance计算上车点到肯尼迪机场、纽瓦克自由国际机场、纽约LaGuardia Airport、自由女神像、纽约市中心的距离</li><li>特征：利用Haversine formula for distance计算上车点到肯尼迪机场、纽瓦克自由国际机场、纽约LaGuardia Airport、自由女神像、纽约市中心的距离</li></ol><h1 id="Modelling（模型）"><a href="#Modelling（模型）" class="headerlink" title="Modelling（模型）"></a>Modelling（模型）</h1><ol><li>概述：模型采用LightGBM、XGBoost，并利用Bayesian-optimization来调整每个模型的参数</li><li>每个模型都有参数，跑完模型后会得到rmse值，rmse（均方根误差亦称标准误差），rmse越小，代表与真实误差越小，排名越靠前。</li><li>模型做完后，可以生成feature importance图表，看之前feature engineering中加入的feature对模型结果有没有帮助</li><li>XGBoost速度比LightGBM慢一些，feature importance的代码与LightGBM不一样</li></ol><h1 id="Ensemble-and-Staking"><a href="#Ensemble-and-Staking" class="headerlink" title="Ensemble and Staking"></a>Ensemble and Staking</h1><ol><li>将每个model调整到rmse最优最小的时候，就可以进行这步操作。这步操作通常就是将多种模型进行结合，互相弥补，以达到更好的结果。</li><li>这部分原理见Document。</li></ol><h1 id="NOTE"><a href="#NOTE" class="headerlink" title="NOTE"></a>NOTE</h1><p>本地查看到的rmse并不是上传到kaggle竞赛平台的最后rmse分数。用于预测的test集中并不包含fare amount，我们的model就是基于各种feature去预测打车的费用，所以我们上传到平台的是打车费用，他们后台会匹配我们预测的结果和后台真实值的匹配度，以计算排名和分数。</p>]]></content>
-      
-      
+      <tags>
+        <tag>University of Melbourne</tag>
+        <tag>Master of Information Technology</tag>
+        <tag>JAVA</tag>
+        <tag>COMP90041</tag>
+        <tag>Programming and Software Development</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>How to Achieve Top 2% in Kaggle Competition? Teach you step by step through New York City Taxi Fare Prediction</title>
+    <url>/New-York-City-Taxi-Fare-Prediction.html</url>
+    <content><![CDATA[<h1 id="New-York-City-Taxi-Fare-Prediction-TOP-2-TEAM"><a href="#New-York-City-Taxi-Fare-Prediction-TOP-2-TEAM" class="headerlink" title="New York City Taxi Fare Prediction - TOP 2% TEAM!"></a>New York City Taxi Fare Prediction - TOP 2% TEAM!</h1><ul>
+<li><strong>Author: Chongzheng Zhao</strong></li>
+<li><strong>Kaggle Competition - New York City Taxi Fare Prediction</strong></li>
+<li><strong>FINAL BEAT 1454 TEAMS!</strong></li>
+<li><strong>We team NYCTAXI located at 30 out of 1484 teams, Top 2%!</strong></li>
+<li><strong>Final Score 2.86770</strong></li>
+<li><strong>Competition Official Website: <a href="https://www.kaggle.com/c/new-york-city-taxi-fare-prediction" target="_blank" rel="noopener">https://www.kaggle.com/c/new-york-city-taxi-fare-prediction</a></strong></li>
+<li><strong>To see the leaderboard(competition result): <a href="https://www.kaggle.com/c/new-york-city-taxi-fare-prediction/leaderboard" target="_blank" rel="noopener">https://www.kaggle.com/c/new-york-city-taxi-fare-prediction/leaderboard</a></strong></li>
+<li><strong>Welcome to my Github Profile: <a href="https://github.com/ChongzhengZhao/" target="_blank" rel="noopener">https://github.com/ChongzhengZhao/</a></strong></li>
+<li><strong>Welcome to my Kaggle Profile: <a href="https://www.kaggle.com/chongzhengzhao" target="_blank" rel="noopener">https://www.kaggle.com/chongzhengzhao</a></strong></li>
+<li><strong>Welcome to my Linkedin Profile: <a href="https://www.linkedin.com/in/chongzhengzhao/" target="_blank" rel="noopener">https://www.linkedin.com/in/chongzhengzhao/</a></strong></li>
+</ul>
+<a id="more"></a> 
+
+<h1 id="项目概要"><a href="#项目概要" class="headerlink" title="项目概要"></a>项目概要</h1><ul>
+<li>按照项目步骤，拿到Raw Data后，按照顺序进行data预处理、feature engineering（特征工程）、做model（模型）、ensemble and stacking。</li>
+</ul>
+<h1 id="Data简介"><a href="#Data简介" class="headerlink" title="Data简介"></a>Data简介</h1><ol>
+<li>New York City Taxi Fare Prediction项目的数据集将近有55million rows，这在kaggle比赛中算比较大的数据集了，这种数据集需要在性能较高电脑中才能处理效率高，并且数据大带来的model调参也比较困难</li>
+<li>DATA KEY， FEATURES ADN TARGET<br>key -  <pre><code>Unique string identifying each row in both the training and test sets. Comprised of pickup_datetime plus a unique integer, but this doesn&apos;t matter, it should just be used as a unique ID field. Required in your submission CSV. Not necessarily needed in the training set, but could be useful to simulate a &apos;submission file&apos; while doing cross-validation within the training set.</code></pre>Features - <pre><code>pickup_datetime - timestamp value indicating when the taxi ride started.
+pickup_longitude - float for longitude coordinate of where the taxi ride started.
+pickup_latitude - float for latitude coordinate of where the taxi ride started.
+dropoff_longitude - float for longitude coordinate of where the taxi ride ended.
+dropoff_latitude - float for latitude coordinate of where the taxi ride ended.
+passenger_count - integer indicating the number of passengers in the taxi ride.</code></pre>Target - <pre><code>fare_amount - float dollar amount of the cost of the taxi ride. This value is only in the training set; this is what you are predicting in the test set and it is required in your submission CSV.</code></pre></li>
+</ol>
+<h1 id="Data预处理"><a href="#Data预处理" class="headerlink" title="Data预处理"></a>Data预处理</h1><ol>
+<li>data中有很多data outlier无效数据，要drop掉那些数据，使得model进行训练的时候使用正确数据进行，得到的model更准确。</li>
+<li>drop掉的无效数据有：值为NA（无记录）的订单记录、费用小于0美金及费用大于475美金的订单记录、上车地点经度小于-80和大于-70的订单记录、上车地点纬度小于35和大于45的订单记录、下车地点经度小于-80和大于-70的订单记录、下车地点纬度小于35和大于45的订单记录、乘客数小于0位和大于等于10位的订单记录。</li>
+</ol>
+<h1 id="Feature-Engineering（特征工程）：增加新特征、观察特征对模型的contribution、增强特征重要性高的特征"><a href="#Feature-Engineering（特征工程）：增加新特征、观察特征对模型的contribution、增强特征重要性高的特征" class="headerlink" title="Feature Engineering（特征工程）：增加新特征、观察特征对模型的contribution、增强特征重要性高的特征"></a>Feature Engineering（特征工程）：增加新特征、观察特征对模型的contribution、增强特征重要性高的特征</h1><ol>
+<li>特征：distance<br> 利用manhattan distance、Straight distance、Haversine formula for distance、Bearing Distance计算distance</li>
+<li>特征：pickup_datetime</li>
+<li>特征：hour_of_day</li>
+<li>特征：month</li>
+<li>特征：year</li>
+<li>特征：weekday</li>
+<li>特征：day_of_month</li>
+<li>特征：利用manhattan distance计算上车点到肯尼迪机场、纽瓦克自由国际机场、纽约LaGuardia Airport、自由女神像、纽约市中心的距离</li>
+<li>特征：利用Haversine formula for distance计算上车点到肯尼迪机场、纽瓦克自由国际机场、纽约LaGuardia Airport、自由女神像、纽约市中心的距离</li>
+</ol>
+<h1 id="Modelling（模型）"><a href="#Modelling（模型）" class="headerlink" title="Modelling（模型）"></a>Modelling（模型）</h1><ol>
+<li>概述：模型采用LightGBM、XGBoost，并利用Bayesian-optimization来调整每个模型的参数</li>
+<li>每个模型都有参数，跑完模型后会得到rmse值，rmse（均方根误差亦称标准误差），rmse越小，代表与真实误差越小，排名越靠前。</li>
+<li>模型做完后，可以生成feature importance图表，看之前feature engineering中加入的feature对模型结果有没有帮助</li>
+<li>XGBoost速度比LightGBM慢一些，feature importance的代码与LightGBM不一样</li>
+</ol>
+<h1 id="Ensemble-and-Staking"><a href="#Ensemble-and-Staking" class="headerlink" title="Ensemble and Staking"></a>Ensemble and Staking</h1><ol>
+<li>将每个model调整到rmse最优最小的时候，就可以进行这步操作。这步操作通常就是将多种模型进行结合，互相弥补，以达到更好的结果。</li>
+<li>这部分原理见Document。</li>
+</ol>
+<h1 id="NOTE"><a href="#NOTE" class="headerlink" title="NOTE"></a>NOTE</h1><p>本地查看到的rmse并不是上传到kaggle竞赛平台的最后rmse分数。用于预测的test集中并不包含fare amount，我们的model就是基于各种feature去预测打车的费用，所以我们上传到平台的是打车费用，他们后台会匹配我们预测的结果和后台真实值的匹配度，以计算排名和分数。</p>
+]]></content>
       <categories>
-          
-          <category> Competition </category>
-          
-          <category> Kaggle </category>
-          
+        <category>Competition</category>
+        <category>Kaggle</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> Kaggle </tag>
-            
-            <tag> Competition </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-  
-  
+      <tags>
+        <tag>Kaggle</tag>
+        <tag>Competition</tag>
+      </tags>
+  </entry>
 </search>
